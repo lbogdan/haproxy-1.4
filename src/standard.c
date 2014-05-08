@@ -569,6 +569,11 @@ unsigned int strl2uic(const char *s, int len)
 	return __strl2uic(s, len);
 }
 
+unsigned int read_uint(const char **s, const char *end)
+{
+	return __read_uint(s, end);
+}
+
 /* This one is 7 times faster than strtol() on athlon with checks.
  * It returns the value of the number composed of all valid digits read,
  * and can process negative numbers too.
@@ -993,12 +998,12 @@ unsigned int inetaddr_host_lim(const char *text, const char *stop)
  * Idem except the pointer to first unparsed byte is returned into <ret> which
  * must not be NULL.
  */
-unsigned int inetaddr_host_lim_ret(const char *text, char *stop, const char **ret)
+unsigned int inetaddr_host_lim_ret(char *text, char *stop, char **ret)
 {
 	const unsigned int ascii_zero = ('0' << 24) | ('0' << 16) | ('0' << 8) | '0';
 	register unsigned int dig100, dig10, dig1;
 	int s;
-	const char *p, *d;
+	char *p, *d;
 
 	dig1 = dig10 = dig100 = ascii_zero;
 	s = 24;
